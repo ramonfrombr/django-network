@@ -98,7 +98,6 @@ def profile_post_page(request, username, page_number):
 
         return render(request, "network/profile.html", {"profile_user": user, "followers": followers, "posts": paginator.page(page_number), "num_pages": range(paginator.num_pages)})
     else:
-        print("ERROR: NO USER")# ERROR
         return HttpResponseRedirect(reverse('index'))
 
 
@@ -110,7 +109,6 @@ def like(request, post_id):
     like = Like.objects.filter(post=post,user=request.user)
 
     if like:
-        print(like[0])
         like[0].delete()
 
         return JsonResponse({
