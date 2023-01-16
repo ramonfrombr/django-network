@@ -1,8 +1,6 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    
-
     <div class="profile__info">
         <h1 class="mb-4 d-flex align-items-end">
             @{{profile_user.username}}{% if user.is_authenticated %}
@@ -21,10 +19,15 @@
     </div>
     
     <div class="main__container">
-        {% for post in posts %}
-            {% include 'snippets/post.html' with post=post.post user_liked=post.user_liked  %}
-        {% endfor %}
-    </div>
 
-    {% include 'snippets/pagination.html' with posts=posts num_pages=num_pages view='profile_post_page' arg1=profile_user.username %}
+        {% if not posts %}
+            <p>This use does not have any posts.</p>
+        {% else %}
+            {% for post in posts %}
+                {% include 'snippets/post.html' with post=post.post user_liked=post.user_liked  %}
+            {% endfor %}
+
+            {% include 'snippets/pagination.html' with posts=posts num_pages=num_pages view='profile_post_page' arg1=profile_user.username %}
+        {% endif %}
+    </div>
 {% endblock %}

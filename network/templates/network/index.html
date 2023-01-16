@@ -10,12 +10,16 @@
             </form>
         {% endif %}
 
-        <div class="posts__list">
+        {% if not posts %}
+            <p>There are not any posts. Use the form to create a post.</p>
+        {% else %}
             {% for post in posts %}
                 {% include 'snippets/post.html' with post=post.post user_liked=post.user_liked %}
             {% endfor %}
-        </div>
+       
+            {% include 'snippets/pagination.html' with posts=posts num_pages=num_pages view='page' %}
+        {% endif %}
     </div>
 
-    {% include 'snippets/pagination.html' with posts=posts num_pages=num_pages view='page' %}
+    
 {% endblock %}

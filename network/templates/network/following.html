@@ -1,0 +1,20 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+  <div class="main__container">
+    <h2 class="my-4">Followings</h2>
+    <div class="posts-list">
+        {% if not posts %}
+          <p>You are not following any user.</p>
+        {% else %}
+          {% for post in posts %}
+              {% include 'snippets/post.html' with post=post.post user_liked=post.user_liked %}
+          {% endfor %}
+
+          {% include 'snippets/pagination.html' with posts=posts num_pages=num_pages view='following_post_page' %}
+        {% endif %}
+    </div>
+  </div>
+
+ 
+{% endblock %}
