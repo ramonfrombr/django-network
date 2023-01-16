@@ -1,0 +1,21 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    <div class="main__container">
+        {% if user.is_authenticated %}
+            <form method="post" action="{% url 'index' %}" class="post__form">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Post</button>
+            </form>
+        {% endif %}
+
+        <div class="posts__list">
+            {% for post in posts %}
+                {% include 'snippets/post.html' with post=post.post user_liked=post.user_liked %}
+            {% endfor %}
+        </div>
+    </div>
+
+    {% include 'snippets/pagination.html' with posts=posts num_pages=num_pages view='page' %}
+{% endblock %}

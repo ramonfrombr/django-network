@@ -1,0 +1,30 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+    
+
+    <div class="profile__info">
+        <h1 class="mb-4 d-flex align-items-end">
+            @{{profile_user.username}}{% if user.is_authenticated %}
+            {% if not profile_user == user %}
+                {% if not user in followers %}
+                    <a class="ml-3 h6" href="{% url 'follow' profile_user.username %}"><button class=" border-0 rounded p-1">Follow</button></a>
+                {% else %}
+                    <a class="ml-3 h6" href="{% url 'unfollow' profile_user.username %}"><button class=" border-0 rounded p-1">Unfollow</button></a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        </h1>
+        <span class="profile__info-badge">posts: {{ profile_user.posts.all|length }}</span>
+        <span class="profile__info-badge">followers: {{ profile_user.followers.all|length }}</span>
+        <span class="profile__info-badge">following: {{ profile_user.following.all|length }}</span>
+    </div>
+    
+    <div class="main__container">
+        {% for post in posts %}
+            {% include 'snippets/post.html' with post=post.post user_liked=post.user_liked  %}
+        {% endfor %}
+    </div>
+
+    {% include 'snippets/pagination.html' with posts=posts num_pages=num_pages view='profile_post_page' arg1=profile_user.username %}
+{% endblock %}

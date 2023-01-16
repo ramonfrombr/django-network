@@ -1,0 +1,13 @@
+{% extends "network/layout.html" %}
+
+{% block body %}
+<div class="main__container">
+  <h2>Followings</h2>
+  <div class="posts-list">
+      {% for post in posts %}
+          {% include 'snippets/post.html' with post=post %}
+      {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+<div class="posts__paginator-container">
+    <ul class="posts__paginator">
+        {% if arg1 %}
+            {% if posts.has_previous %}
+                <a href="{% url view arg1 posts.previous_page_number %}"><li  class="posts__paginator-item"><i class="fas fa-arrow-left"></i></li></a>
+            {% endif %}
+            {% for i in num_pages %}
+                {% if posts.number == forloop.counter %}
+                    <li class="posts__paginator-item--selected">{{ forloop.counter }}</li>
+                {% else %}
+                <a href="{% url view arg1 forloop.counter %}"><li class="posts__paginator-item">{{ forloop.counter }}</li></a>
+                {% endif %}
+            {% endfor %}
+            {% if posts.has_next %}
+                <a href="{% url view arg1 posts.next_page_number %}"><li  class="posts__paginator-item"><i class="fas fa-arrow-right"></i></li></a>
+            {% endif %}
+        {% else %}
+            {% if posts.has_previous %}
+                <a href="{% url view posts.previous_page_number %}"><li  class="posts__paginator-item"><i class="fas fa-arrow-left"></i></li></a>
+            {% endif %}
+            {% for i in num_pages %}
+                {% if posts.number == forloop.counter %}
+                    <li class="posts__paginator-item--selected">{{ forloop.counter }}</li>
+                {% else %}
+                <a href="{% url view forloop.counter %}"><li class="posts__paginator-item">{{ forloop.counter }}</li></a>
+                {% endif %}
+            {% endfor %}
+            {% if posts.has_next %}
+                <a href="{% url view posts.next_page_number %}"><li  class="posts__paginator-item"><i class="fas fa-arrow-right"></i></li></a>
+            {% endif %}
+        {% endif %}   
+    </ul>
+</div>

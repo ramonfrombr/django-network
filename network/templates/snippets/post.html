@@ -1,0 +1,82 @@
+<div class="post">
+  <div style="padding: 5px">
+    {% if post.user == user %}
+      <div class="post__options">
+        <button id="post-edit-button-{{ post.id }}" data-post_id="{{ post.id }}" class="post__edit-button"><i class="fas fa-edit mr-1"></i>edit</button>
+        <button id="post-save-button-{{ post.id }}" data-post_id="{{ post.id }}" class="post__save-button" style="margin-bottom: 5px;display: none">save</button>
+        <button id="post-cancel-button-{{ post.id }}" data-post_id="{{ post.id }}" class="post__cancel-button" style="margin-bottom: 5px;display: none">cancel</button>
+      </div>
+      
+      <script>
+        document.querySelector("#post-edit-button-{{ post.id }}").addEventListener('click', () => {
+          document.querySelector("#post__content-{{post.id}}").style.display = "none";
+          document.querySelector("#post__content-form{{post.id}}").style.display = "block";
+          document.querySelector("#post-edit-button-{{ post.id }}").style.display = "none";
+          document.querySelector("#post-save-button-{{ post.id }}").style.display = "block";
+          document.querySelector("#post-cancel-button-{{ post.id }}").style.display = "block";
+        })
+
+
+        document.querySelector("#post-save-button-{{ post.id }}").addEventListener('click', () => {
+          
+          fetch(`/edit_post/${document.querySelector("#post-edit-button-{{ post.id }}").dataset.post_id}`, {
+            method: 'POST',
+            body: JSON.stringify({
+                content: document.querySelector("#post__content-form{{post.id}}").value,
+            })
+          })
+          .then(response => response.json())
+          .then(result => {
+              // Print result
+              console.log(result);
+          });
+
+          document.querySelector("#post__content-{{post.id}}").innerText = document.querySelector("#post__content-form{{post.id}}").value
+
+          document.querySelector("#post__content-{{post.id}}").style.display = "block";
+          document.querySelector("#post__content-form{{post.id}}").style.display = "none";
+
+          document.querySelector("#post-edit-button-{{ post.id }}").style.display = "block";
+          document.querySelector("#post-save-button-{{ post.id }}").style.display = "none";
+          document.querySelector("#post-cancel-button-{{ post.id }}").style.display = "none";
+        })
+
+
+        document.querySelector("#post-cancel-button-{{ post.id }}").addEventListener('click', () => {
+
+          console.log(document.querySelector("#post__content-{{post.id}}").nodeValue)
+          console.log(document.querySelector("#post__content-{{post.id}}").innerText)
+          console.log(document.querySelector("#post__content-{{post.id}}").innerHTML)
+
+          document.querySelector("#post__content-form{{post.id}}").value = document.querySelector("#post__content-{{post.id}}").innerHTML;
+
+          document.querySelector("#post__content-{{post.id}}").style.display = "block";
+          document.querySelector("#post__content-form{{post.id}}").style.display = "none";
+
+          document.querySelector("#post-edit-button-{{ post.id }}").style.display = "block";
+          document.querySelector("#post-save-button-{{ post.id }}").style.display = "none";
+          document.querySelector("#post-cancel-button-{{ post.id }}").style.display = "none";
+        })
+
+      </script>
+
+      <textarea id="post__content-form{{post.id}}" style="width: 100%; display: none;" rows="3">{{post.content}}</textarea>
+    {% endif %}
+
+    <div id="post__content-{{post.id}}" class="post__content">{{ post.content }}</div>
+  </div>
+  
+  <div class="post__footer">
+    <div>
+      <span><a href="{% url 'profile' post.user.username %}">@{{ post.user.username }}</a></span>
+      <span>{{ post.created_at }}</span>
+    </div>
+    <div class="post__footer-options">
+      {% if user.is_authenticated %}
+        <span class="like-button {% if user_liked %}post__liked-button{% endif %}" data-post_id="{{ post.id }}" data-likes="{{ post.likes.all|length }}"><i class="fas fa-thumbs-up"></i> {{ post.likes.all|length }}</span>
+      {% else %}
+        <span data-post_id="{{ post.id }}" data-likes="{{ post.likes.all|length }}"><i class="fas fa-thumbs-up"></i> {{ post.likes.all|length }}</span>
+      {% endif %}
+    </div>
+  </div>
+</div>

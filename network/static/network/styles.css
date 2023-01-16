@@ -1,0 +1,135 @@
+body {
+  background-color: rgb(225, 241, 255);
+
+}
+
+.main__container {
+  margin-top: 10px;
+  width: 95%;
+  margin: 0 auto;
+}
+
+.profile__info {
+  background-color: white;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.profile__info-badge {
+  background-color: gray;
+  font-weight: bold;
+  padding: 5px;
+  color: white;
+  border-radius: 3px;
+}
+
+.post__form {
+  border: 1px solid rgb(215, 255, 253);
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.post__form button {
+  margin-top: 10px;
+  background-color: rgb(0, 139, 231);
+  color: white;
+  font-weight: bold;
+  border-radius: 2px;
+  width: fit-content;
+  border: none;
+  font-size: 1.5em
+}
+
+.post {
+  border: 1px solid rgb(215, 240, 255);
+  background-color: rgb(255, 255, 255);
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+.post__options {
+  display: flex;
+}
+
+.post__options button {
+  border: none;
+  font-size: 1em;
+  color: white;
+  font-weight: bold;
+  border-radius: 2px;
+  margin-bottom: 5px;
+  padding: 1px 10px;
+}
+
+.post__edit-button {
+  background-color: rgb(0, 139, 231);
+}
+
+.post__save-button {
+  background-color: green;
+  margin-right: 5px;
+}
+
+.post__cancel-button {
+  background-color: gray;
+}
+
+.post__content {
+  padding: 5px;
+  font-size: 1.5em
+}
+
+.post__footer{
+  display: flex;
+  justify-content: space-between;
+  padding: 2px;
+  font-size: 1.3em;
+  color: gray;
+}
+
+.post__footer-options span {
+  cursor: pointer;
+}
+
+.post__liked-button {
+  color: rgb(12, 138, 255)
+}
+
+.posts__paginator-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px 10px 60px;
+}
+
+.posts__paginator {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  font-size: 10px;
+  font-size: 1.5em;
+}
+
+.posts__paginator a:hover {
+  text-decoration: none;
+}
+
+.posts__paginator-item--selected {
+  background-color: white;
+  border: 1px solid rgb(215, 240, 255);
+  margin: 0 5px;
+  width: 40px;
+  text-align: center;
+}
+
+.posts__paginator-item {
+  background-color: white;
+  border: 1px solid rgb(215, 240, 255);
+  margin: 0 5px;
+  width: 40px;
+  text-align: center;
+}
