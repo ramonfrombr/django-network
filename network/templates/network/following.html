@@ -11,10 +11,10 @@
               {% include 'snippets/post.html' with post=post.post user_liked=post.user_liked %}
           {% endfor %}
 
-          {% include 'snippets/pagination.html' with posts=posts num_pages=num_pages view='following_post_page' %}
+          {% if num_pages|length > 1 %}
+            {% include 'snippets/pagination.html' with posts=posts num_pages=num_pages view='following_post_page' %}
+          {% endif %}
         {% endif %}
     </div>
   </div>
-
- 
 {% endblock %}

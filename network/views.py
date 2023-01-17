@@ -9,6 +9,7 @@ from .models import User, Post, UserFollowing, Like
 from django.http import JsonResponse
 import json
 from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404
 
 
 class NewPostForm(forms.Form):
@@ -78,7 +79,7 @@ def profile(request, username):
 
 def profile_post_page(request, username, page_number):
 
-    user = User.objects.get(username=username)
+    user = get_object_or_404(User, username=username)
 
     if user:
 

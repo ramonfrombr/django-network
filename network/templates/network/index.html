@@ -5,21 +5,33 @@
         {% if user.is_authenticated %}
             <form method="post" action="{% url 'index' %}" class="post__form">
                 {% csrf_token %}
-                {{ form }}
+                <textarea
+                    name="content"
+                    rows="2"
+                    placeholder="Write something..."
+                    maxlength="500"
+                    required=""
+                    id="id_content"
+                    oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"'
+                ></textarea>
                 <button type="submit">Post</button>
             </form>
         {% endif %}
 
         {% if not posts %}
-            <p>There are not any posts. Use the form to create a post.</p>
+            {% if user.is_authenticated %}
+                <p class="mt-4">There are not any posts. Use the form to create a post.</p>
+            {% else %}
+                <p>There are not any posts. Create an account <a href="{% url 'register' %}">clicking here</a> and create the first post.</p>
+            {% endif %}
         {% else %}
             {% for post in posts %}
                 {% include 'snippets/post.html' with post=post.post user_liked=post.user_liked %}
             {% endfor %}
-       
-            {% include 'snippets/pagination.html' with posts=posts num_pages=num_pages view='page' %}
+
+            {% if num_pages|length > 1 %}
+                {% include 'snippets/pagination.html' with posts=posts num_pages=num_pages view='page' %}
+            {% endif %}
         {% endif %}
     </div>
-
-    
 {% endblock %}

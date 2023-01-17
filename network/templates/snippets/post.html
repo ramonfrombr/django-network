@@ -6,11 +6,27 @@
         <button id="post-save-button-{{ post.id }}" data-post_id="{{ post.id }}" class="post__save-button" style="margin-bottom: 5px;display: none">save</button>
         <button id="post-cancel-button-{{ post.id }}" data-post_id="{{ post.id }}" class="post__cancel-button" style="margin-bottom: 5px;display: none">cancel</button>
       </div>
+
+      <textarea
+        rows="1"
+        disabled
+        class="post__content-form"
+        id="post__content-form-{{post.id}}"
+        style="width: 100%;"
+        oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' 
+        data-content="{{post.content}}"
+      ></textarea>
       
       <script>
+
+        function resize () {
+            var text = document.getElementById('post__content-form-{{post.id}}');
+            text.style.height = "auto";
+            text.style.height = text.scrollHeight+'px';
+        }
+        
         document.querySelector("#post-edit-button-{{ post.id }}").addEventListener('click', () => {
-          document.querySelector("#post__content-{{post.id}}").style.display = "none";
-          document.querySelector("#post__content-form{{post.id}}").style.display = "block";
+          document.querySelector("#post__content-form-{{post.id}}").disabled = false;
           document.querySelector("#post-edit-button-{{ post.id }}").style.display = "none";
           document.querySelector("#post-save-button-{{ post.id }}").style.display = "block";
           document.querySelector("#post-cancel-button-{{ post.id }}").style.display = "block";
@@ -21,7 +37,7 @@
           fetch(`/edit_post/${document.querySelector("#post-edit-button-{{ post.id }}").dataset.post_id}`, {
             method: 'POST',
             body: JSON.stringify({
-                content: document.querySelector("#post__content-form{{post.id}}").value,
+                content: document.querySelector("#post__content-form-{{post.id}}").value,
             })
           })
           .then(response => response.json())
@@ -30,13 +46,12 @@
             alert(result.message)
 
             if (result.status == "success") {
-              document.querySelector("#post__content-{{post.id}}").innerText = document.querySelector("#post__content-form{{post.id}}").value
+              document.querySelector("#post__content-form-{{post.id}}").dataset.content = document.querySelector("#post__content-form-{{post.id}}").value
             } else {
-              document.querySelector("#post__content-form{{post.id}}").value = document.querySelector("#post__content-{{post.id}}").innerHTML;
+              document.querySelector("#post__content-form-{{post.id}}").value = document.querySelector("#post__content-form-{{post.id}}").dataset.content;
             }
 
-            document.querySelector("#post__content-{{post.id}}").style.display = "block";
-            document.querySelector("#post__content-form{{post.id}}").style.display = "none";
+            document.querySelector("#post__content-form-{{post.id}}").disabled = true;
 
             document.querySelector("#post-edit-button-{{ post.id }}").style.display = "block";
             document.querySelector("#post-save-button-{{ post.id }}").style.display = "none";
@@ -44,29 +59,48 @@
           })
         })
 
-
         document.querySelector("#post-cancel-button-{{ post.id }}").addEventListener('click', () => {
 
-          console.log(document.querySelector("#post__content-{{post.id}}").nodeValue)
-          console.log(document.querySelector("#post__content-{{post.id}}").innerText)
-          console.log(document.querySelector("#post__content-{{post.id}}").innerHTML)
+          document.querySelector("#post__content-form-{{post.id}}").value = document.querySelector("#post__content-form-{{post.id}}").dataset.content;
 
-          document.querySelector("#post__content-form{{post.id}}").value = document.querySelector("#post__content-{{post.id}}").innerHTML;
-
-          document.querySelector("#post__content-{{post.id}}").style.display = "block";
-          document.querySelector("#post__content-form{{post.id}}").style.display = "none";
-
+          document.querySelector("#post__content-form-{{post.id}}").disabled = true;
           document.querySelector("#post-edit-button-{{ post.id }}").style.display = "block";
           document.querySelector("#post-save-button-{{ post.id }}").style.display = "none";
           document.querySelector("#post-cancel-button-{{ post.id }}").style.display = "none";
+
+          document.getElementById('post__content-form-{{post.id}}').style.height = "auto";
+
+          document.getElementById('post__content-form-{{post.id}}').style.height = document.getElementById('post__content-form-{{post.id}}').scrollHeight+'px';
         })
 
+        document.querySelector("#post__content-form-{{post.id}}").value = document.querySelector("#post__content-form-{{post.id}}").dataset.content;
+        
+        resize();
       </script>
+    {% else %}
+      <textarea
+        rows="1"
+        disabled
+        class="post__content-form"
+        id="post__content-form-{{post.id}}"
+        style="width: 100%;"
+        oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' 
+        data-content="{{post.content}}"
+      ></textarea>
 
-      <textarea id="post__content-form{{post.id}}" style="width: 100%; display: none;" rows="3">{{post.content}}</textarea>
+      <script>
+        function resize () {
+            var text = document.getElementById('post__content-form-{{post.id}}');
+            text.style.height = "auto";
+            text.style.height = text.scrollHeight+'px';
+        }
+
+        document.querySelector("#post__content-form-{{post.id}}").value = document.querySelector("#post__content-form-{{post.id}}").dataset.content;
+        
+        resize();
+      </script>
     {% endif %}
 
-    <div id="post__content-{{post.id}}" class="post__content">{{ post.content }}</div>
   </div>
   
   <div class="post__footer">
